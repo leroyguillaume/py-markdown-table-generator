@@ -1,0 +1,8 @@
+-e .
+autopep8
+build
+pylint
+pytest
+setuptools
+typing
+wheel
