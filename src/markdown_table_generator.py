@@ -23,6 +23,11 @@ class Cell:
         self.value = value
         self.alignment = alignment
 
+    def __eq__(self, other) -> bool:
+        if isinstance(other, Cell):
+            return self.value == other.value and self.alignment == other.alignment
+        return False
+
     def __repr__(self) -> str:
         return self.value
 
@@ -50,6 +55,20 @@ def generate_markdown(table: Table) -> str:
         row = table[row_index]
         markdown += "\n" + __generate_row(row, columns_size)
     return markdown
+
+
+def table_from_string_list(rows: List[List[Optional[str]]], alignment: Alignment = Alignment.LEFT) -> Table:
+    table = []
+    for row in rows:
+        table_row = []
+        for cell_value in row:
+            if cell_value is None:
+                table_row.append(None)
+            else:
+                cell = Cell(cell_value, alignment)
+                table_row.append(cell)
+        table.append(table_row)
+    return table
 
 
 def __align_center_string(string, size: int) -> str:

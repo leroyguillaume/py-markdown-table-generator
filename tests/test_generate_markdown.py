@@ -2,9 +2,9 @@ from markdown_table_generator import *
 
 table = [
     [
-        Cell("OS"), 
-        Cell("Creator", Alignment.CENTER), 
-        Cell("Company", Alignment.RIGHT)
+        Cell("OS"),
+        Cell("Creator", Alignment.CENTER),
+        Cell("Company", Alignment.RIGHT),
     ],
     [Cell("Ubuntu"), Cell("Mark Shuttleworth"), Cell("Canonical")],
     [Cell("FreeBSD"), None, None],
