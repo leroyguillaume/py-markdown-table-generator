@@ -21,7 +21,7 @@ jobs:
       - name: Build
         run: python3 -m build
       - name: Upload
-        run: python3 -m twine upload -u ${{ secrets.PYPI_USERNAME }} -p "${{ secrets.PYPI_PASSWORD }}" dist
+        run: python3 -m twine upload -u ${{ secrets.PYPI_USERNAME }} -p "${{ secrets.PYPI_PASSWORD }}" dist/*
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
