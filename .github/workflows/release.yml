@@ -12,9 +12,21 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Get version
+        run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF:10}
       - name: Install dependencies
         run: pip3 install -r requirements.txt
       - name: Build
         run: python3 -m build
       - name: Upload
         run: python3 -m twine upload -u ${{ secrets.PYPI_USERNAME }} -p "${{ secrets.PYPI_PASSWORD }}" dist
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
