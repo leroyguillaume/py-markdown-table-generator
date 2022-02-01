@@ -21,4 +21,9 @@ setup(
     ],
     python_requires='>=3.6',
     install_requires=["typing"],
+    entry_points={
+        "console_scripts": [
+            "csv-to-md = markdown_table_generator:__csv_to_md"
+        ]
+    }
 )

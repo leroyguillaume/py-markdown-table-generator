@@ -1,11 +1,5 @@
 from markdown_table_generator import *
 
-csv = [
-    "OS;Creator;Company\n",
-    "Ubuntu;Mark Shuttleworth;Canonical\n",
-    "FreeBSD;;\n",
-    "Fedora;;Red Hat\n",
-]
 expected_table = [
     [
         Cell("OS", Alignment.CENTER),
@@ -36,5 +30,7 @@ def test_table_from_csv_with_csv():
 
 
 def test_table_from_csv():
+    with open("tests/table.csv", "r") as file:
+        csv = file.readlines()
     table = table_from_csv(csv, ";", Alignment.CENTER)
     assert table == expected_table

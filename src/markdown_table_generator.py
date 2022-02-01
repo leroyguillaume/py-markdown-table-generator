@@ -1,16 +1,17 @@
 """Markdown table generator"""
 
+from argparse import ArgumentParser
 from enum import Enum
 from math import ceil, floor
-from typing import List, Optional
+from typing import  List, Optional
 
 
 class Alignment(Enum):
     """Alignment"""
 
-    LEFT = 1
-    CENTER = 2
-    RIGHT = 3
+    LEFT = 0
+    CENTER = 1
+    RIGHT = 2
 
 
 class Cell:
@@ -33,6 +34,13 @@ class Cell:
 
     def __str__(self) -> str:
         return self.value
+
+
+class InvalidAlignment(Exception):
+    """Exception raised when alignment does not exist"""
+
+    def __init__(self, alignment: str) -> None:
+        Exception.__init__(alignment)
 
 
 Table = List[List[Optional[Cell]]]
@@ -119,6 +127,46 @@ def __align_right_string(string, size: int) -> str:
     return offset_string + string
 
 
+def __alignment_from_string(string: str) -> Alignment:
+    if string == "l":
+        return Alignment.LEFT
+    if string == "c":
+        return Alignment.CENTER
+    if string == "r":
+        return Alignment.RIGHT
+    raise InvalidAlignment(string)
+
+
+def __csv_to_md() -> None:
+    arg_parser = ArgumentParser(
+        description="Generate markdown table from CSV",
+    )
+    arg_parser.add_argument("file", nargs="+")
+    arg_parser.add_argument(
+        "-a", "--alignment",
+        help="table alignment (l|c|r for left, center or right;default: 'l')",
+        metavar="alignment",
+        choices=["l", "c", "r"],
+        default="l",
+    )
+    arg_parser.add_argument(
+        "-s", "--separator",
+        help="column separator (default: ',')",
+        metavar="separator",
+        default=",",
+    )
+    args = arg_parser.parse_args()
+    alignment = __alignment_from_string(args.alignment)
+    for i, filepath in enumerate(args.file):
+        with open(filepath, "r", encoding="utf-8") as file:
+            csv = file.readlines()
+        table = table_from_csv(csv, args.separator, alignment)
+        markdown = generate_markdown(table)
+        print(markdown)
+        if i < len(args.file) - 1:
+            print()
+
+
 def __compute_columns_size(table: Table) -> List[int]:
     columns_size = []
     for row in table:
@@ -138,7 +186,7 @@ def __generate_cell_value(cell: Cell, column_size: int) -> str:
         return __align_center_string(cell.value, column_size)
     if cell.alignment == Alignment.RIGHT:
         return __align_right_string(cell.value, column_size)
-    return NotImplemented
+    raise InvalidAlignment(cell.alignment)
 
 
 def __generate_dash_row(header_row: List[Optional[Cell]], columns_size: List[int]) -> str:
