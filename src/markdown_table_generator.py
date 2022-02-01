@@ -57,7 +57,17 @@ def generate_markdown(table: Table) -> str:
     return markdown
 
 
-def table_from_string_list(rows: List[List[Optional[str]]], alignment: Alignment = Alignment.LEFT) -> Table:
+def table_from_string_list(
+    rows: List[List[Optional[str]]],
+    alignment: Alignment = Alignment.LEFT
+) -> Table:
+    """Create table (row, column) from list of rows.
+
+    Keyword arguments:
+    rows -- List of rows
+    alignment -- Global table alignment
+    """
+
     table = []
     for row in rows:
         table_row = []
