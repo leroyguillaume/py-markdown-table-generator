@@ -57,6 +57,23 @@ def generate_markdown(table: Table) -> str:
     return markdown
 
 
+def table_from_csv(
+    csv: List[str],
+    separator: str = ",",
+    alignment: Alignment = Alignment.LEFT,
+) -> Table:
+    """Create table (row, column) from CSV.
+
+    Keyword arguments:
+    csv -- List of CSV lines
+    separator -- Column separator
+    alignment -- Global table alignment
+    """
+
+    rows = [line.strip().split(separator) for line in csv]
+    return table_from_string_list(rows, alignment)
+
+
 def table_from_string_list(
     rows: List[List[Optional[str]]],
     alignment: Alignment = Alignment.LEFT
