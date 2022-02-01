@@ -4,5 +4,6 @@ build
 pylint
 pytest
 setuptools
+twine
 typing
 wheel
