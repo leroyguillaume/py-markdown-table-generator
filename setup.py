@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="markdown-table-generator",
+    name="markdown_table_generator",
     version="1.0.0",
     author="Guillaume Leroy",
     author_email="pro.guillaume.leroy@gmail.com",
