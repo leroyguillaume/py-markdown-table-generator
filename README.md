@@ -12,7 +12,7 @@ Python library to generate Markdown table.
 ## Usage
 
 ```bash
-pip3 install py-markdown-table-generator-gleroy
+pip3 install markdown-table-generator
 ```
 
 ### CLI

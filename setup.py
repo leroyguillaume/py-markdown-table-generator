@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="py-markdown-table-generator-gleroy", # Replace with your own username
-    version="1.0.1",
+    name="markdown-table-generator",
+    version="1.0.0",
     author="Guillaume Leroy",
     author_email="pro.guillaume.leroy@gmail.com",
     description="Library to generate Markdown table",
