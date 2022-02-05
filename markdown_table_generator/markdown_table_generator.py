@@ -3,7 +3,7 @@
 from argparse import ArgumentParser
 from enum import Enum
 from math import ceil, floor
-from typing import  List, Optional
+from typing import List, Optional
 
 
 class Alignment(Enum):
@@ -44,6 +44,38 @@ class InvalidAlignment(Exception):
 
 
 Table = List[List[Optional[Cell]]]
+
+
+def csv_to_md() -> None:
+    """Generate markdown table from CSV files given as command line arguments"""
+
+    arg_parser = ArgumentParser(
+        description="Generate markdown table from CSV",
+    )
+    arg_parser.add_argument("file", nargs="+")
+    arg_parser.add_argument(
+        "-a", "--alignment",
+        help="table alignment (l|c|r for left, center or right;default: 'l')",
+        metavar="alignment",
+        choices=["l", "c", "r"],
+        default="l",
+    )
+    arg_parser.add_argument(
+        "-s", "--separator",
+        help="column separator (default: ',')",
+        metavar="separator",
+        default=",",
+    )
+    args = arg_parser.parse_args()
+    alignment = __alignment_from_string(args.alignment)
+    for i, filepath in enumerate(args.file):
+        with open(filepath, "r", encoding="utf-8") as file:
+            csv = file.readlines()
+        table = table_from_csv(csv, args.separator, alignment)
+        markdown = generate_markdown(table)
+        print(markdown)
+        if i < len(args.file) - 1:
+            print()
 
 
 def generate_markdown(table: Table) -> str:
@@ -135,36 +167,6 @@ def __alignment_from_string(string: str) -> Alignment:
     if string == "r":
         return Alignment.RIGHT
     raise InvalidAlignment(string)
-
-
-def __csv_to_md() -> None:
-    arg_parser = ArgumentParser(
-        description="Generate markdown table from CSV",
-    )
-    arg_parser.add_argument("file", nargs="+")
-    arg_parser.add_argument(
-        "-a", "--alignment",
-        help="table alignment (l|c|r for left, center or right;default: 'l')",
-        metavar="alignment",
-        choices=["l", "c", "r"],
-        default="l",
-    )
-    arg_parser.add_argument(
-        "-s", "--separator",
-        help="column separator (default: ',')",
-        metavar="separator",
-        default=",",
-    )
-    args = arg_parser.parse_args()
-    alignment = __alignment_from_string(args.alignment)
-    for i, filepath in enumerate(args.file):
-        with open(filepath, "r", encoding="utf-8") as file:
-            csv = file.readlines()
-        table = table_from_csv(csv, args.separator, alignment)
-        markdown = generate_markdown(table)
-        print(markdown)
-        if i < len(args.file) - 1:
-            print()
 
 
 def __compute_columns_size(table: Table) -> List[int]:

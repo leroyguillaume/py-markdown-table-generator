@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="markdown_table_generator",
-    version="1.0.2",
+    version="1.0.3",
     author="Guillaume Leroy",
     author_email="pro.guillaume.leroy@gmail.com",
     description="Library to generate Markdown table",
@@ -22,7 +22,7 @@ setup(
     install_requires=["typing"],
     entry_points={
         "console_scripts": [
-            "csv-to-md = markdown_table_generator:__csv_to_md"
+            "csv-to-md = markdown_table_generator:csv_to_md"
         ]
     }
 )
