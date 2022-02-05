@@ -5,15 +5,14 @@ with open("README.md", "r") as fh:
 
 setup(
     name="markdown_table_generator",
-    version="1.0.1",
+    version="1.0.2",
     author="Guillaume Leroy",
     author_email="pro.guillaume.leroy@gmail.com",
     description="Library to generate Markdown table",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/leroyguillaume/py-markdown-table-generator",
-    packages=find_packages(where="src"),
-    package_dir={"": "src"},
+    packages=["markdown_table_generator"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

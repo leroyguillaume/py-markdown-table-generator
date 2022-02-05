@@ -3,4 +3,4 @@
 set -e
 
 pytest
-pylint src
+pylint markdown_table_generator
