@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="markdown_table_generator",
-    version="1.0.0",
+    version="1.0.1",
     author="Guillaume Leroy",
     author_email="pro.guillaume.leroy@gmail.com",
     description="Library to generate Markdown table",
