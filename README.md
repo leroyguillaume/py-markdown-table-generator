@@ -33,6 +33,8 @@ csv-to-md -s ";" -a r tests/table.csv
 # |  Ubuntu | Mark Shuttleworth | Canonical |
 # | FreeBSD |                   |           |
 # |  Fedora |                   |   Red Hat |
+
+csv-to-md -s ";" -a r tests/table.csv | xclip -selection clipboard # Copy markdown table in clipboard
 ```
 
 ### Library
