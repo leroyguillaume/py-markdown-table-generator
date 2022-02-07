@@ -35,6 +35,8 @@ csv-to-md -s ";" -a r tests/table.csv
 # |  Fedora |                   |   Red Hat |
 
 csv-to-md -s ";" -a r tests/table.csv | xclip -selection clipboard # Copy markdown table in clipboard
+
+psql -h 127.0.0.1 -U postgres postgres -c "select * from test" --csv | csv-to-md # Generate markdown table from PostgreSQL query
 ```
 
 ### Library

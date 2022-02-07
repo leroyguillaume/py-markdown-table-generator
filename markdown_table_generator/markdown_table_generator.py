@@ -4,6 +4,7 @@ from argparse import ArgumentParser
 from enum import Enum
 from math import ceil, floor
 from typing import List, Optional
+import sys
 
 
 class Alignment(Enum):
@@ -52,7 +53,11 @@ def csv_to_md() -> None:
     arg_parser = ArgumentParser(
         description="Generate markdown table from CSV",
     )
-    arg_parser.add_argument("file", nargs="+")
+    arg_parser.add_argument(
+        "file",
+        help="CSV file to convert to markdown (if empty, stdin is used)",
+        nargs="*",
+    )
     arg_parser.add_argument(
         "-a", "--alignment",
         help="table alignment (l|c|r for left, center or right;default: 'l')",
@@ -68,14 +73,16 @@ def csv_to_md() -> None:
     )
     args = arg_parser.parse_args()
     alignment = __alignment_from_string(args.alignment)
-    for i, filepath in enumerate(args.file):
-        with open(filepath, "r", encoding="utf-8") as file:
-            csv = file.readlines()
-        table = table_from_csv(csv, args.separator, alignment)
-        markdown = generate_markdown(table)
-        print(markdown)
-        if i < len(args.file) - 1:
-            print()
+    if len(args.file) == 0:
+        csv = sys.stdin.readlines()
+        __print_markdown_from_csv(csv, args.separator, alignment)
+    else:
+        for i, filepath in enumerate(args.file):
+            with open(filepath, "r", encoding="utf-8") as file:
+                csv = file.readlines()
+            __print_markdown_from_csv(csv, args.separator, alignment)
+            if i < len(args.file) - 1:
+                print()
 
 
 def generate_markdown(table: Table) -> str:
@@ -202,6 +209,12 @@ def __generate_dash_row(header_row: List[Optional[Cell]], columns_size: List[int
         elif cell.alignment == Alignment.RIGHT:
             string += __generate_string_with("-", column_size + 1) + ":|"
     return string
+
+
+def __print_markdown_from_csv(csv: str, separator: str, alignment: Alignment) -> None:
+    table = table_from_csv(csv, separator, alignment)
+    markdown = generate_markdown(table)
+    print(markdown)
 
 
 def __generate_string_with(character: str, size: int) -> str:
